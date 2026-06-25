@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Issue - Community Hero</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="report">
+  <header class="topbar">
+    <a class="brand" href="index.html">Community Hero</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="report.html">Report</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Citizen reporting</p>
+      <h1>Report a local issue</h1>
+      <p>Capture the problem, location, and category so the community can verify and track it.</p>
+    </section>
+
+    <section class="split wide-left">
+      <div class="panel">
+        <h2>Issue Details</h2>
+        <form id="issueForm" class="form">
+          <label>Title<input type="text" name="title" placeholder="Pothole near main gate" required></label>
+          <label>Description<textarea name="description" rows="5" placeholder="Describe what happened, nearby landmark, and urgency."></textarea></label>
+          <label>Category
+            <select name="category">
+              <option value="">Let AI suggest</option>
+              <option>Road Damage</option>
+              <option>Water Leakage</option>
+              <option>Waste Management</option>
+              <option>Streetlight Issue</option>
+              <option>General Civic Issue</option>
+            </select>
+          </label>
+          <div class="grid-2">
+            <label>Latitude<input type="number" name="latitude" step="any"></label>
+            <label>Longitude<input type="number" name="longitude" step="any"></label>
+          </div>
+          <label>Address<input type="text" name="address" placeholder="Area, road, landmark"></label>
+          <button class="button ghost" type="button" id="useLocationBtn">Use My Location</button>
+          <button class="button primary" type="submit">Submit Report</button>
+        </form>
+        <p id="reportMessage" class="message"></p>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <h2>Community Issues</h2>
+          <button class="button small" id="refreshIssuesBtn">Refresh</button>
+        </div>
+        <div id="allIssues" class="issue-list tall"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

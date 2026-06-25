@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Hero</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="home">
+    <header class="topbar">
+      <a class="brand" href="index.html">Community Hero</a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="report.html">Report</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Report and Solve Local Community Problems</h1>
+        <p>
+          Community Hero helps citizens report potholes, water leakages, broken
+          streetlights, waste problems, and other public issues.
+        </p>
+
+        <div class="hero-actions">
+          <a href="report.html" class="btn primary">Report an Issue</a>
+          <a href="dashboard.html" class="btn secondary">View Dashboard</a>
+        </div>
+      </section>
+
+      <section class="auth-section">
+        <div class="auth-card">
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="showLoginBtn" type="button">
+              Login
+            </button>
+            <button class="auth-tab" id="showRegisterBtn" type="button">
+              Register
+            </button>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <h3>Welcome Back!</h3>
+            <label for="loginEmail"
+              >Username :
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email"
+                required
+              />
+            </label>
+            <label for="loginPassword"
+              >Password :
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                required
+              />
+            </label>
+            <button class="btn primary" type="submit">Login</button>
+
+            <p id="loginMessage"></p>
+          </form>
+
+          <form id="registerForm" class="auth-form hidden">
+            <h3>Create an Account</h3>
+            <label for="registerName"
+              >Full Name :
+              <input
+                type="text"
+                id="registerName"
+                placeholder="Full Name"
+                required
+            /></label>
+            <label for="registerEmail"
+              >Email :
+              <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email"
+                required
+            /></label>
+            <label for="registerPassword"
+              >Password :
+              <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password"
+                required
+              />
+            </label>
+            <label for="confirmPassword"
+              >Confirm Password :
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                required
+            /></label>
+            <button class="btn primary" type="submit">Register</button>
+
+            <p id="registerMessage"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Community Status</h3>
+
+        <div id="communityStatus">
+          <p>Total Issues : <span id="totalIssues">0</span></p>
+          <p>Reported Issues: <span id="reportedIssues">0</span></p>
+          <p>In Progress : <span id="inProgressIssues">0</span></p>
+          <p>Resolved Issues: <span id="resolvedIssues">0</span></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Community Hero. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

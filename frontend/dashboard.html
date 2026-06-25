@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Community Hero</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="dashboard">
+  <header class="topbar">
+    <a class="brand" href="index.html">Community Hero</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="report.html">Report</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Impact dashboard</p>
+      <h1>Track civic progress</h1>
+      <p>Use issue data to understand community needs, resolution progress, and location hotspots.</p>
+    </section>
+
+    <section class="stat-grid dashboard" id="dashboardStats">
+      <article><strong>0</strong><span>Total Issues</span></article>
+      <article><strong>0</strong><span>Reported</span></article>
+      <article><strong>0</strong><span>In Progress</span></article>
+      <article><strong>0</strong><span>Resolved</span></article>
+      <article><strong>0</strong><span>Total Users</span></article>
+    </section>
+
+    <section class="split">
+      <div class="panel">
+        <h2>AI Category Summary</h2>
+        <div id="categorySummary" class="bar-list"></div>
+      </div>
+      <div class="panel">
+        <h2>Location Hotspots</h2>
+        <div id="hotspots" class="hotspot-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
