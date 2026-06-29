@@ -121,3 +121,79 @@ loginForm.addEventListener("submit", async function (event) {
     loginMessage.className = "error";
   }
 });
+
+//Initialize the map when page loads
+let map;
+let marker;
+
+document.addEventListener("DOMContentLoaded", () => {
+  //default coordinates (e.g., center of the city)
+  const defaultLat= 23.0225;
+  const defaultLng= 72.5714;
+
+  map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+  //load standard OpenStreetMap tiles
+  L.titleLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: ' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  //allow user to click the map to set a location
+  map.on('click', function(e) {
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+
+    //if a marker already exists, remove it
+    if (marker) {
+      map.removeLayer(marker);
+    }
+
+    //add a new marker at the clicked location
+    marker = L.marker([lat, lng]).addTo(map);
+
+    //update the hidden input fields in the form with the selected coordinates
+    document.getElementById('latitude').value = lat;
+    document.getElementById('longitude').value = lng;
+  });
+});
+
+// 2. Handle Form Submission
+const reportForm = document.getElementById('reportForm');
+
+if (reportForm) {
+    reportForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Use FormData instead of JSON to handle the file upload
+        const formData = new FormData();
+        formData.append("title", document.getElementById('title').value);
+        formData.append("description", document.getElementById('description').value);
+        // Add your category logic here if you have a dropdown
+        formData.append("category", "Infrastructure"); 
+        formData.append("latitude", document.getElementById('latitude').value);
+        formData.append("longitude", document.getElementById('longitude').value);
+
+        const imageFile = document.getElementById('imageUpload').files[0];
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/issues/', {
+                method: 'POST',
+                body: formData // Notice: No Content-Type header needed for FormData, the browser handles it
+            });
+
+            if (response.ok) {
+                alert("Issue reported successfully!");
+                reportForm.reset();
+                if (marker) map.removeLayer(marker);
+            } else {
+                alert("Failed to submit issue.");
+            }
+        } catch (error) {
+            console.error("Error submitting report:", error);
+        }
+    });
+}

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report Issue - Community Hero</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body data-page="report">
   <header class="topbar">
@@ -27,7 +29,27 @@
     <section class="split wide-left">
       <div class="panel">
         <h2>Issue Details</h2>
-        <form id="issueForm" class="form">
+        <form id="issueForm">
+          <input type="text" id="title" placeholder="Issue Title (e.g., Pothole near main gate)" required>
+          <textarea id="description" rows="5" placeholder="Describe what happened, nearby landmark, and urgency." required></textarea>
+          <label for="imageUpload">Upload Image/Photo of Evidence (Optional):</label>
+          <input type="file" id="imageUpload" accept="image/*">
+          <label>Pinpoint Location:</label>
+          <div id="map" style="height: 300px; width: 100%; margin-bottom: 15px; border-radius: 8px;"></div>
+          <input type="hidden" id="latitude" name="latitude">
+          <input type="hidden" id="longitude" name="longitude">
+          <label for="category">Category:</label>
+          <select id="category" name="category" required>
+            <option value="">Let AI suggest</option>
+            <option value="Road Damage">Road Damage</option>
+            <option value="Water Leakage">Water Leakage</option>
+            <option value="Waste Management">Waste Management</option>
+            <option value="Streetlight Issue">Streetlight Issue</option>
+            <option value="General Civic Issue">General Civic Issue</option>
+          </select>
+          <button class="btn primary" type="submit">Submit Report</button>
+        </form>
+        <!-- <form id="issueForm" class="form">
           <label>Title<input type="text" name="title" placeholder="Pothole near main gate" required></label>
           <label>Description<textarea name="description" rows="5" placeholder="Describe what happened, nearby landmark, and urgency."></textarea></label>
           <label>Category
@@ -47,7 +69,7 @@
           <label>Address<input type="text" name="address" placeholder="Area, road, landmark"></label>
           <button class="button ghost" type="button" id="useLocationBtn">Use My Location</button>
           <button class="button primary" type="submit">Submit Report</button>
-        </form>
+        </form> -->
         <p id="reportMessage" class="message"></p>
       </div>
 
