@@ -1,70 +1,110 @@
-import html
+from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form
+from pydantic import BaseModel, EmailStr
+from typing import List
+# Assuming your db engine config is in backend/database.py
+# from .database import get_db 
+from .auth import get_password_hash, verify_password, create_access_token, get_current_user, TokenData
+from .ai_engine import analyze_issue
 import os
-from pathlib import Path
 import shutil
-
-from fastapi import FastAPI, Form, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-
-from .database import Base, engine
-from . import models
-from .routes import users, issues, dashboard
-
-
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Community Hero API")
 
-# create folder to store uploaded files if it doesn't exist
-os.makedirs("uploads", exist_ok=True)
+# Ensure local media directories exist for storing user evidence
+UPLOAD_DIR = "static/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Mount the static files directory for serving uploaded files
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# --- Pydantic Schemas ---
+class UserRegister(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
 
-app.include_router(users.router)
-app.include_router(issues.router)
-app.include_router(dashboard.router)
+class IssueCreate(BaseModel):
+    title: str
+    description: str
+    latitude: float
+    longitude: float
 
-@app.get("/api/health")
-def health():
-    return {"message": "Community Hero API is running"}
+# --- Authentication API Routes ---
 
-FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+@app.post("/api/auth/register", status_code=status.HTTP_201_CREATED)
+def register_user(user: UserRegister):
+    # 1. Check if user already exists in your real DB here
+    # 2. Hash password
+    hashed = get_password_hash(user.password)
+    
+    # Example DB save mock logic for presentation:
+    # db_user = User(username=user.username, email=user.email, hashed_password=hashed)
+    # db.add(db_user)...db.commit()
+    
+    return {"message": "User registered successfully"}
 
-@app.post("/api/submit-issue")
-async def create_issue(
-    issue: str = Form(...),
-    description: str = Form(..., description="The issue description"),
-    category: str = Form(..., description="The issue category"),
-    latitude: float = Form(..., description="The latitude of the issue location"),
-    longitude: float = Form(..., description="The longitude of the issue location"),
-    image: UploadFile = Form(..., description="The base64-encoded image of the issue")
+@app.post("/api/auth/login")
+def login(user: UserLogin):
+    # 1. Fetch user from DB by email
+    # Mocking a verified user search result here:
+    mock_db_user = {"email": user.email, "hashed_password": get_password_hash("password123"), "role": "Citizen"}
+    
+    if not verify_password(user.password, mock_db_user["hashed_password"]):
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+    
+    # Generate true JWT access token
+    access_token = create_access_token(data={"sub": mock_db_user["email"], "role": mock_db_user["role"]})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+# --- Protected Issue Reporting Route ---
+@app.post("/api/issues/", status_code=status.HTTP_201_CREATED)
+async def report_issue(
+    title: str = Form(...),
+    description: str = Form(...),
+    latitude: float = Form(...),
+    longitude: float = Form(...),
+    image: UploadFile = File(None),
+    current_user: TokenData = Depends(get_current_user)
 ):
-    image_url = None
+    # 1. Trigger AI Intelligent Automation to parse description
+    ai_analysis = analyze_issue(description)
+    detected_category = ai_analysis["category"]
+    predicted_priority = ai_analysis["priority"]
+    
+    # 2. Automated Department Queue Routing
+    target_department = get_assigned_department(detected_category)
+    
+    # 3. Handle File Upload if visual evidence is provided
+    saved_file_path = None
     if image:
-        file_location = f"uploads/{image.filename}"
-        with open(file_location, "wb") as buffer:
+        file_extension = os.path.splitext(image.filename)[1]
+        # Secure unique name formatting
+        unique_filename = f"issue_{current_user.email.split('@')[0]}_{os.urandom(4).hex()}{file_extension}"
+        saved_file_path = os.path.join(UPLOAD_DIR, unique_filename)
+        
+        with open(saved_file_path, "wb") as buffer:
             shutil.copyfileobj(image.file, buffer)
-        image_url = f"/{file_location}"
 
-    # ToDo : save this data to your database using existing models and database session
-    new_issue = {
-        "title": issue,
+    # Compile the comprehensive, automated record structure
+    new_issue_record = {
+        "title": title,
         "description": description,
-        "category": category,
         "latitude": latitude,
         "longitude": longitude,
-        "image_url": image_url,
-        "status": "Pending"  # Default status for new issues
+        "category": detected_category,      # Filled by AI
+        "priority": predicted_priority,      # Filled by AI
+        "assigned_department": target_department, # Sorted by Auto-routing
+        "reporter": current_user.email,
+        "image_url": f"/{saved_file_path}" if saved_file_path else None,
+        "status": "Pending Verification"
     }
-
-    return {"message": "Issue submitted successfully", "issue": new_issue}
+    
+    # In your real setup: db.add(Issue(**new_issue_record)) -> db.commit()
+    
+    return {
+        "status": "Success",
+        "message": "AI categorized and routed your ticket efficiently.",
+        "data": new_issue_record
+    }

@@ -1,88 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Report Issue - Community Hero</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-</head>
-<body data-page="report">
-  <header class="topbar">
-    <a class="brand" href="index.html">Community Hero</a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="report.html">Report</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="page-title">
-      <p class="eyebrow">Citizen reporting</p>
-      <h1>Report a local issue</h1>
-      <p>Capture the problem, location, and category so the community can verify and track it.</p>
-    </section>
-
-    <section class="split wide-left">
-      <div class="panel">
-        <h2>Issue Details</h2>
-        <form id="issueForm">
-          <input type="text" id="title" placeholder="Issue Title (e.g., Pothole near main gate)" required>
-          <textarea id="description" rows="5" placeholder="Describe what happened, nearby landmark, and urgency." required></textarea>
-          <label for="imageUpload">Upload Image/Photo of Evidence (Optional):</label>
-          <input type="file" id="imageUpload" accept="image/*">
-          <label>Pinpoint Location:</label>
-          <div id="map" style="height: 300px; width: 100%; margin-bottom: 15px; border-radius: 8px;"></div>
-          <input type="hidden" id="latitude" name="latitude">
-          <input type="hidden" id="longitude" name="longitude">
-          <label for="category">Category:</label>
-          <select id="category" name="category" required>
-            <option value="">Let AI suggest</option>
-            <option value="Road Damage">Road Damage</option>
-            <option value="Water Leakage">Water Leakage</option>
-            <option value="Waste Management">Waste Management</option>
-            <option value="Streetlight Issue">Streetlight Issue</option>
-            <option value="General Civic Issue">General Civic Issue</option>
-          </select>
-          <button class="btn primary" type="submit">Submit Report</button>
-        </form>
-        <!-- <form id="issueForm" class="form">
-          <label>Title<input type="text" name="title" placeholder="Pothole near main gate" required></label>
-          <label>Description<textarea name="description" rows="5" placeholder="Describe what happened, nearby landmark, and urgency."></textarea></label>
-          <label>Category
-            <select name="category">
-              <option value="">Let AI suggest</option>
-              <option>Road Damage</option>
-              <option>Water Leakage</option>
-              <option>Waste Management</option>
-              <option>Streetlight Issue</option>
-              <option>General Civic Issue</option>
-            </select>
-          </label>
-          <div class="grid-2">
-            <label>Latitude<input type="number" name="latitude" step="any"></label>
-            <label>Longitude<input type="number" name="longitude" step="any"></label>
-          </div>
-          <label>Address<input type="text" name="address" placeholder="Area, road, landmark"></label>
-          <button class="button ghost" type="button" id="useLocationBtn">Use My Location</button>
-          <button class="button primary" type="submit">Submit Report</button>
-        </form> -->
-        <p id="reportMessage" class="message"></p>
-      </div>
-
-      <div class="panel">
-        <div class="section-head">
-          <h2>Community Issues</h2>
-          <button class="button small" id="refreshIssuesBtn">Refresh</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Hero - File Report</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand-section">
+        <span class="brand-icon">🛡️</span>
+        <div class="brand-text">
+          <h1>Community Hero</h1>
+          <p>Hyperlocal Civic Resolution Hub</p>
         </div>
-        <div id="allIssues" class="issue-list tall"></div>
       </div>
-    </section>
-  </main>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link active">Report Issue</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="admin.html" class="nav-link">Admin</a>
+      </nav>
+    </header>
 
-  <script src="script.js"></script>
-</body>
+    <main class="workspace">
+      <div id="map"></div>
+
+      <div class="control-sidebar">
+        <div class="panel-body">
+          <div class="form-title-area">
+            <span class="hero-badge">AI Incident Dispatch</span>
+            <h2 style="margin-top: 0.5rem">File Civic Ticket</h2>
+            <p>
+              Tap the community map area to drop the location anchor pin, then
+              describe the problem.
+            </p>
+          </div>
+
+          <form
+            id="reportForm"
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 1.25rem;
+              margin-top: 1rem;
+            "
+          >
+            <input type="hidden" id="latitude" />
+            <input type="hidden" id="longitude" />
+
+            <div class="input-wrapper">
+              <label class="field-label" for="title"
+                >Issue Subject Headline</label
+              >
+              <input
+                type="text"
+                id="title"
+                required
+                placeholder="e.g., Major road pothole blocking lanes"
+                class="form-field"
+              />
+            </div>
+
+            <div class="input-wrapper">
+              <label class="field-label" for="description"
+                >Detailed Context</label
+              >
+              <textarea
+                id="description"
+                required
+                rows="4"
+                placeholder="Describe the scene accurately. Our AI uses this information to determine severity levels and automatically assign it to the proper civic department."
+                class="custom-textarea"
+              ></textarea>
+            </div>
+
+            <div class="input-wrapper">
+              <label class="field-label">Visual Verification Capture</label>
+              <div class="media-dropzone">
+                <input type="file" id="imageUpload" accept="image/*" />
+                <span style="font-size: 1.5rem">📸</span>
+                <p
+                  id="fileUploadStatus"
+                  style="font-size: 0.75rem; font-weight: 600; margin-top: 4px"
+                >
+                  Attach Verification Media
+                </p>
+              </div>
+            </div>
+
+            <div id="geoBadge" class="geo-tracker-box">
+              <div style="display: flex; align-items: center; gap: 0.5rem">
+                <span>📍</span>
+                <span
+                  id="geoText"
+                  style="font-family: monospace; color: var(--text-muted)"
+                  >Unpinned Location Target</span
+                >
+              </div>
+              <span id="geoIndicator" class="live-pulse"></span>
+            </div>
+
+            <button type="submit" class="hero-btn">Dispatch Ticket 🚀</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 Community Hero Network. All rights reserved.</p>
+      <div class="footer-status-hook">
+        <span class="live-status-dot"></span>
+        <p>Operational Node Active</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>

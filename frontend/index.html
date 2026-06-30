@@ -1,130 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community Hero</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body data-page="home">
-    <header class="topbar">
-      <a class="brand" href="index.html">Community Hero</a>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="report.html">Report</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="admin.html">Admin</a>
-      </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hero - Hyperlocal Civic Action Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="brand-section">
+            <span class="brand-icon">🛡️</span>
+            <div class="brand-text">
+                <h1>Community Hero</h1>
+                <p>Hyperlocal Civic Resolution Hub</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active">Home</a>
+            <a href="/report.html" class="nav-link">Report Issue</a>
+            <a href="/dashboard.html" class="nav-link">Dashboard</a>
+            <a href="/admin.html" class="nav-link">Admin</a>
+        </nav>
     </header>
 
-    <main>
-      <section class="hero">
-        <h1>Report and Solve Local Community Problems</h1>
-        <p>
-          Community Hero helps citizens report potholes, water leakages, broken
-          streetlights, waste problems, and other public issues.
-        </p>
+    <main class="landing-hero-container">
+        <div class="landing-grid">
+            
+            <div class="hero-text-pane">
+                <span class="hero-badge">AI-Powered Neighborhood Safety</span>
+                <h2 class="hero-headline">Report and Solve Local Community Problems</h2>
+                <p class="hero-subtext">
+                    Community Hero empowers citizens to identify, report, and collaborate on public infrastructure issues. Through intelligent automation, your reports are instantly analyzed and sent to the right municipality department.
+                </p>
+                
+                <div class="mini-dashboard">
+                    <h3 class="panel-subtitle">Live Community Impact Status</h3>
+                    <div class="metrics-row">
+                        <div class="metric-pill">
+                            <span class="metric-num" id="count-total">0</span>
+                            <span class="metric-lbl">Total Issues</span>
+                        </div>
+                        <div class="metric-pill">
+                            <span class="metric-num text-reported" id="count-reported">0</span>
+                            <span class="metric-lbl">Reported</span>
+                        </div>
+                        <div class="metric-pill">
+                            <span class="metric-num text-progress" id="count-progress">0</span>
+                            <span class="metric-lbl">In Progress</span>
+                        </div>
+                        <div class="metric-pill">
+                            <span class="metric-num text-resolved" id="count-resolved">0</span>
+                            <span class="metric-lbl">Resolved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="hero-actions">
-          <a href="report.html" class="btn primary">Report an Issue</a>
-          <a href="dashboard.html" class="btn secondary">View Dashboard</a>
+            <div class="hero-auth-pane">
+                <div class="auth-card">
+                    <div class="auth-toggle-bar">
+                        <button id="showLoginBtn" class="toggle-tab-action active">Login</button>
+                        <button id="showRegisterBtn" class="toggle-tab-action">Register</button>
+                    </div>
+
+                    <form id="loginForm" class="auth-form-module">
+                        <div class="form-header">
+                            <h3>Welcome Back!</h3>
+                            <p>Sign in to access your dashboard and check status logs.</p>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Account Email Address</label>
+                            <input type="email" id="loginEmail" required placeholder="e.g., citizen@city.org" class="form-field">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Secure Password</label>
+                            <input type="password" id="loginPassword" required placeholder="••••••••" class="form-field">
+                        </div>
+                        <p id="loginMessage" class="status-msg"></p>
+                        <button type="submit" class="action-submit-btn">Authorize Account Session 🔑</button>
+                    </form>
+
+                    <form id="registerForm" class="auth-form-module hidden">
+                        <div class="form-header">
+                            <h3>Join the Movement</h3>
+                            <p>Create an account to track issues and earn community points.</p>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Full Name</label>
+                            <input type="text" id="registerName" required placeholder="e.g., Jane Doe" class="form-field">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Email Address</label>
+                            <input type="email" id="registerEmail" required placeholder="e.g., name@domain.com" class="form-field">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Password</label>
+                            <input type="password" id="registerPassword" required placeholder="Min. 8 characters with numbers" class="form-field">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Confirm Password</label>
+                            <input type="password" id="confirmPassword" required placeholder="Verify password entry match" class="form-field">
+                        </div>
+                        <p id="registerMessage" class="status-msg"></p>
+                        <button type="submit" class="action-submit-btn register-variant">Create Citizen Profile ✨</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
-      </section>
-
-      <section class="auth-section">
-        <div class="auth-card">
-          <div class="auth-tabs">
-            <button class="auth-tab active" id="showLoginBtn" type="button">
-              Login
-            </button>
-            <button class="auth-tab" id="showRegisterBtn" type="button">
-              Register
-            </button>
-          </div>
-
-          <form id="loginForm" class="auth-form">
-            <h3>Welcome Back!</h3>
-            <label for="loginEmail"
-              >Username :
-              <input
-                type="email"
-                id="loginEmail"
-                placeholder="Email"
-                required
-              />
-            </label>
-            <label for="loginPassword"
-              >Password :
-              <input
-                type="password"
-                id="loginPassword"
-                placeholder="Password"
-                required
-              />
-            </label>
-            <button class="btn primary" type="submit">Login</button>
-
-            <p id="loginMessage"></p>
-          </form>
-
-          <form id="registerForm" class="auth-form hidden">
-            <h3>Create an Account</h3>
-            <label for="registerName"
-              >Full Name :
-              <input
-                type="text"
-                id="registerName"
-                placeholder="Full Name"
-                required
-            /></label>
-            <label for="registerEmail"
-              >Email :
-              <input
-                type="email"
-                id="registerEmail"
-                placeholder="Email"
-                required
-            /></label>
-            <label for="registerPassword"
-              >Password :
-              <input
-                type="password"
-                id="registerPassword"
-                placeholder="Password"
-                required
-              />
-            </label>
-            <label for="confirmPassword"
-              >Confirm Password :
-              <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm Password"
-                required
-            /></label>
-            <button class="btn primary" type="submit">Register</button>
-
-            <p id="registerMessage"></p>
-          </form>
-        </div>
-      </section>
-
-      <section class="card">
-        <h3>Community Status</h3>
-
-        <div id="communityStatus">
-          <p>Total Issues : <span id="totalIssues">0</span></p>
-          <p>Reported Issues: <span id="reportedIssues">0</span></p>
-          <p>In Progress : <span id="inProgressIssues">0</span></p>
-          <p>Resolved Issues: <span id="resolvedIssues">0</span></p>
-        </div>
-      </section>
     </main>
 
-    <footer>
-      <p>&copy; 2024 Community Hero. All rights reserved.</p>
+    <footer class="app-footer">
+        <p>&copy; 2026 Community Hero Network. All rights reserved.</p>
+        <div class="footer-status-hook">
+            <span class="live-status-dot"></span>
+            <p>Operational Node Active</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>

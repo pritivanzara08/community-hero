@@ -1,199 +1,218 @@
+// ==========================================================================
+// 1. GLOBAL CONFIGURATIONS & UI INSTANTIATIONS
+// ==========================================================================
+const API_BASE_URL = "http://127.0.0.1:8000";
+let map;
+let marker;
+
+// ==========================================================================
+// 2. RUNS IMMEDIATELY: INTERFACE TAB SYSTEM SWITCHING (SIDEBARS & CARD FORMS)
+// ==========================================================================
+const showReportTab = document.getElementById("showReportTab");
+const showAuthTab = document.getElementById("showAuthTab");
+const reportContainer = document.getElementById("reportContainer");
+const authContainer = document.getElementById("authContainer");
+
+if (showReportTab && showAuthTab && reportContainer && authContainer) {
+    showReportTab.addEventListener("click", () => {
+        reportContainer.classList.remove("hidden");
+        authContainer.classList.add("hidden");
+        showReportTab.classList.add("active");
+        showAuthTab.classList.remove("active");
+    });
+
+    showAuthTab.addEventListener("click", () => {
+        authContainer.classList.remove("hidden");
+        reportContainer.classList.add("hidden");
+        showAuthTab.classList.add("active");
+        showReportTab.classList.remove("active");
+    });
+}
+
+// FIX ADDITION: Home Page Login vs Registration View Switching Panels
 const showLoginBtn = document.getElementById("showLoginBtn");
 const showRegisterBtn = document.getElementById("showRegisterBtn");
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 
-//switch to Login form
-showLoginBtn.addEventListener("click", function () {
-  loginForm.classList.remove("hidden");
-  registerForm.classList.add("hidden");
-
-  showLoginBtn.classList.add("active");
-  showRegisterBtn.classList.remove("active");
-});
-
-//switch to Register form
-showRegisterBtn.addEventListener("click", function () {
-  registerForm.classList.remove("hidden");
-  loginForm.classList.add("hidden");
-
-  showRegisterBtn.classList.add("active");
-  showLoginBtn.classList.remove("active");
-});
-
-//register user
-registerForm.addEventListener("submit", async function (event) {
-  event.preventDefault();
-
-  const fullName = document.getElementById("registerName").value;
-  const email = document.getElementById("registerEmail").value;
-  const password = document.getElementById("registerPassword").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-  const registerMessage = document.getElementById("registerMessage");
-
-  if (password !== confirmPassword) {
-    registerMessage.textContent = "Passwords do not match.";
-    registerMessage.className = "error";
-    return;
-  }
-
-  if (password.length < 8) {
-    registerMessage.textContent =
-      "Password must be at least 8 characters long.";
-    registerMessage.className = "error";
-    return;
-  }
-
-  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
-    registerMessage.textContent =
-      "Password must contain at least one letter and one number.";
-    registerMessage.className = "error";
-    return;
-  }
-
-  try {
-    const response = await fetch("http://127.0.0.1:8000/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        full_name: fullName,
-        email: email,
-        password: password,
-        confirm_password: confirmPassword,
-      }),
+if (showLoginBtn && showRegisterBtn && loginForm && registerForm) {
+    showLoginBtn.addEventListener("click", () => {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        showLoginBtn.classList.add("active");
+        showRegisterBtn.classList.remove("active");
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      registerMessage.textContent = data.detail || "Registration failed.";
-      registerMessage.className = "error";
-    } else {
-      registerMessage.textContent = "Registration successful! Please Login.";
-      registerMessage.className = "success";
-      alert("Registration successful! Please login now.");
-      registerForm.reset();
-      // Optionally, switch to the login form after successful registration
-      showLoginBtn.click();
-    }
-  } catch (error) {
-    console.error("Error during registration:", error);
-    registerMessage.textContent =
-      error.message || "An error occurred. Please try again.";
-    registerMessage.className = "error";
-  }
-});
-
-//login user
-loginForm.addEventListener("submit", async function (event) {
-  event.preventDefault();
-
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-  const loginMessage = document.getElementById("loginMessage");
-
-  try {
-    const response = await fetch("/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
+    showRegisterBtn.addEventListener("click", () => {
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        showRegisterBtn.classList.add("active");
+        showLoginBtn.classList.remove("active");
     });
+}
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      loginMessage.textContent = data.detail || "Login failed.";
-      loginMessage.className = "error";
-    } else {
-      loginMessage.textContent = "Login successful!";
-      loginMessage.className = "success";
-      // Redirect to dashboard or another page after successful login
-      window.location.href = "/dashboard.html";
-    }
-  } catch (error) {
-    console.error("Error during login:", error);
-    loginMessage.textContent =
-      error.message || "An error occurred. Please try again.";
-    loginMessage.className = "error";
-  }
-});
-
-//Initialize the map when page loads
-let map;
-let marker;
-
+// ==========================================================================
+// 3. RUNS ON DOM LOAD: GIS MAPPING AND INTERACTION LOOPS
+// ==========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  //default coordinates (e.g., center of the city)
-  const defaultLat= 23.0225;
-  const defaultLng= 72.5714;
+    // Dynamically query Live Impact Metrics counts for your Home Dashboard widgets at startup
+    fetchLiveImpactStatistics();
 
-  map = L.map('map').setView([defaultLat, defaultLng], 13);
+    const mapContainer = document.getElementById("map");
+    if (!mapContainer) return;
 
-  //load standard OpenStreetMap tiles
-  L.titleLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: ' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+    const defaultLat = 23.0225;
+    const defaultLng = 72.5714;
 
-  //allow user to click the map to set a location
-  map.on('click', function(e) {
-    const lat = e.latlng.lat;
-    const lng = e.latlng.lng;
+    map = L.map("map", { zoomControl: false }).setView([defaultLat, defaultLng], 13);
 
-    //if a marker already exists, remove it
-    if (marker) {
-      map.removeLayer(marker);
+    L.control.zoom({ position: "topleft" }).addTo(map);
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 20,
+        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+    }).addTo(map);
+
+    // FIXED WORKFLOW: The location assignment logic now runs safely INSIDE the click callback
+    map.on("click", function (e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        const latInput = document.getElementById("latitude");
+        const lngInput = document.getElementById("longitude");
+        if (latInput) latInput.value = lat;
+        if (lngInput) lngInput.value = lng;
+
+        const geoText = document.getElementById("geoText");
+        const geoIndicator = document.getElementById("geoIndicator");
+        
+        if (geoText && geoIndicator) {
+            geoText.textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            geoText.style.color = "var(--success-green, #10b981)";
+            
+            // Clean handling of classes vs element parameters
+            geoIndicator.style.backgroundColor = "#10b981";
+            geoIndicator.classList.add("locked");
+        }
+    });
+
+    const fileInput = document.getElementById("imageUpload");
+    const uploadStatusText = document.getElementById("fileUploadStatus");
+    if (fileInput && uploadStatusText) {
+        fileInput.addEventListener("change", (e) => {
+            if (e.target.files.length > 0) {
+                uploadStatusText.textContent = `Attached: ${e.target.files[0].name}`;
+                uploadStatusText.classList.add("text-indigo-600");
+            }
+        });
     }
-
-    //add a new marker at the clicked location
-    marker = L.marker([lat, lng]).addTo(map);
-
-    //update the hidden input fields in the form with the selected coordinates
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
-  });
 });
 
-// 2. Handle Form Submission
-const reportForm = document.getElementById('reportForm');
+// ==========================================================================
+// 4. DATA SYNCHRONIZATION: LIVE METRICS TICKER ENGINE
+// ==========================================================================
+async function fetchLiveImpactStatistics() {
+    try {
+        // Fallback checks to ensure elements exist on current viewport page configuration
+        if (!document.getElementById("count-total")) return;
+
+        const response = await fetch(`${API_BASE_URL}/api/dashboard/stats`); // Adjust to your Phase-1 statistics route
+        if (response.ok) {
+            const stats = await response.json();
+            document.getElementById("count-total").textContent = stats.total || 0;
+            document.getElementById("count-reported").textContent = stats.reported || 0;
+            document.getElementById("count-progress").textContent = stats.progress || 0;
+            document.getElementById("count-resolved").textContent = stats.resolved || 0;
+        }
+    } catch (err) {
+        console.warn("Dashboard Live statistics endpoint offline. Defaulting views to static seed configurations.", err);
+    }
+}
+
+// ==========================================================================
+// 5. TICKET FORM SUBMISSION EVENT HANDLER
+// ==========================================================================
+const reportForm = document.getElementById("reportForm");
 
 if (reportForm) {
-    reportForm.addEventListener('submit', async (e) => {
+    reportForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Use FormData instead of JSON to handle the file upload
-        const formData = new FormData();
-        formData.append("title", document.getElementById('title').value);
-        formData.append("description", document.getElementById('description').value);
-        // Add your category logic here if you have a dropdown
-        formData.append("category", "Infrastructure"); 
-        formData.append("latitude", document.getElementById('latitude').value);
-        formData.append("longitude", document.getElementById('longitude').value);
+        const token = localStorage.getItem("jwt_access_token");
+        if (!token) {
+            alert("🔒 Access Denied. Please authenticate into your citizen account profile first.");
+            window.location.href = "/index.html";
+            return;
+        }
 
-        const imageFile = document.getElementById('imageUpload').files[0];
+        const latVal = document.getElementById("latitude").value;
+        const lngVal = document.getElementById("longitude").value;
+
+        if (!latVal || !lngVal) {
+            alert("📍 Mapping Error: You must pick the exact location by clicking on the map workspace before submitting your ticket.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("title", document.getElementById("title").value);
+        formData.append("description", document.getElementById("description").value);
+        formData.append("latitude", latVal);
+        formData.append("longitude", lngVal);
+
+        const imageFile = document.getElementById("imageUpload").files[0];
         if (imageFile) {
             formData.append("image", imageFile);
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/issues/', {
-                method: 'POST',
-                body: formData // Notice: No Content-Type header needed for FormData, the browser handles it
+            const response = await fetch(`${API_BASE_URL}/api/issues/`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
             });
 
+            const result = await response.json();
+
             if (response.ok) {
-                alert("Issue reported successfully!");
+                alert("🎉 Success! The automated engine analyzed the description, determined priority levels, and assigned the ticket to the correct department.");
                 reportForm.reset();
-                if (marker) map.removeLayer(marker);
+
+                const uploadStatus = document.getElementById("fileUploadStatus");
+                if (uploadStatus) {
+                    uploadStatus.textContent = "Click to capture or attach media file";
+                    uploadStatus.classList.remove("text-indigo-600");
+                }
+
+                if (marker && map) {
+                    map.removeLayer(marker);
+                }
+
+                const geoText = document.getElementById("geoText");
+                const geoIndicator = document.getElementById("geoIndicator");
+                const geoBadge = document.getElementById("geoBadge");
+
+                if (geoText) geoText.textContent = "Select Pin Coordinate Location";
+                if (geoIndicator) {
+                    geoIndicator.className = "live-pulse";
+                    geoIndicator.style.backgroundColor = "";
+                }
+                
+                // Refresh dashboard statistics panel automatically after a successful report submission
+                fetchLiveImpactStatistics();
             } else {
-                alert("Failed to submit issue.");
+                alert(`⚠️ Server Error: ${result.detail || "Could not parse ticket values."}`);
             }
         } catch (error) {
-            console.error("Error submitting report:", error);
+            console.error("Critical Fetch Fail Exception: ", error);
+            alert("📡 Network Connection Fail: Failed to reach the automated AI backend process framework.");
         }
     });
 }

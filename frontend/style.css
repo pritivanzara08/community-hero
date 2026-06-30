@@ -1,230 +1,527 @@
+/* ==========================================================================
+   1. GLOBAL PROJECT LAYOUT VARIABLES
+   ========================================================================== */
+:root {
+  --bg-universe: #0b1329; /* Dark Blue Chassis Base */
+  --bg-card: #1c2541; /* Lighter Container Indigo Surface */
+  --bg-fields: #0b1329; /* Field backgrounds */
+  --slate-border: #3a506b; /* Structured Borders */
+  --white-glow: #ffffff;
+  --text-muted: #85929e;
+
+  --brand-mint: #5bc0be; /* App Focus Theme Accent */
+  --brand-mint-glow: #6fffe9;
+  --danger-rose: #ff3366;
+  --success-emerald: #00f5d4;
+}
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
-  color: #222;
+  background-color: var(--bg-universe);
+  color: var(--white-glow);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.topbar {
-  background: #0f766e;
-  color: #fff;
-  padding: 16px 40px;
+/* ==========================================================================
+   2. PINNED APP HEADER MECHANICS
+   ========================================================================== */
+.app-header {
+  background-color: rgba(28, 37, 65, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--slate-border);
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
+  z-index: 100;
 }
 
-.topbar h2 {
-  margin: 0;
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-icon {
   font-size: 1.5rem;
+  background: rgba(91, 192, 190, 0.1);
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(91, 192, 190, 0.3);
 }
 
-.topbar nav {
+.brand-text h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--white-glow);
+  line-height: 1.2;
+}
+
+.brand-text p {
+  font-size: 0.75rem;
+  color: var(--brand-mint);
+  font-weight: 600;
+}
+
+.nav-menu {
   display: flex;
-  gap: 16px;
+  gap: 1.5rem;
 }
 
-.topbar a {
-  color: #fff;
+.nav-link {
+  color: var(--text-muted);
   text-decoration: none;
-  font-weight: bold;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+  padding-bottom: 0.2rem;
 }
 
-.topbar a:hover {
-  border: 1px solid #fff;
-  border-radius: 4px;
-  padding: 3px 6px;
-  text-decoration: underline;
-  color: brown;
+.nav-link:hover,
+.nav-link.active {
+  color: var(--white-glow);
 }
 
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 20px;
+.nav-link.active {
+  color: var(--brand-mint);
+  border-bottom: 2px solid var(--brand-mint);
 }
 
-.hero {
-  background: #f4f6f8;
-  padding: 40px;
-  border-radius: 10px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
-}
-
-.hero h1 {
-  margin-top: 0;
-  font-size: 36px;
-  color: #0f766e;
-}
-
-.hero p {
-  font-size: 18px;
-  line-height: 1.5;
-  color: #555;
-}
-
-.hero-actions {
-  margin-top: 24px;
+/* ==========================================================================
+   3. HERO PANE COLUMN ROW LAYOUT
+   ========================================================================== */
+.landing-hero-container {
+  flex: 1;
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  border: #555;
-  padding: 11px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  border: 1px solid #555;
-}
-
-.btn.primary {
-  background: #0f766e;
-  color: #fff;
-}
-
-.btn.secondary {
-  background: #fff;
-  color: #0f766e;
-  border: 1px solid #0f766e;
-}
-
-.btn:hover {
-  opacity: 1.9;
-  cursor: pointer;
-  color: bisque;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
-}
-
-.auth-section {
-  display: flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
-.auth-card {
+.landing-grid {
   width: 100%;
-  max-width: 430px;
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.auth-tabs {
+  max-width: 1200px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: #e5e7eb;
-  padding: 4px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
 }
 
-.auth-tab {
-  border: none;
+@media (min-width: 992px) {
+  .landing-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+.hero-text-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero-badge {
+  background: rgba(91, 192, 190, 0.1);
+  border: 1px solid rgba(91, 192, 190, 0.3);
+  color: var(--brand-mint);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  align-self: flex-start;
+}
+
+.hero-headline {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero-headline {
+    font-size: 3rem;
+  }
+}
+
+.hero-subtext {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. STATS MONITOR METRIC DISPLAY PANELS
+   ========================================================================== */
+.mini-dashboard {
+  background-color: rgba(28, 37, 65, 0.4);
+  border: 1px solid var(--slate-border);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+}
+
+.panel-subtitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand-mint);
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 576px) {
+  .metrics-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metric-pill {
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.metric-lbl {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.text-reported {
+  color: var(--brand-mint);
+}
+.text-progress {
+  color: #ffb703;
+}
+.text-resolved {
+  color: var(--success-emerald);
+}
+
+/* ==========================================================================
+   5. PROFILE AUTH PORTAL CONTAINER CARD
+   ========================================================================== */
+.auth-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--slate-border);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.auth-toggle-bar {
+  display: flex;
+  background-color: var(--bg-universe);
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--slate-border);
+  margin-bottom: 1.5rem;
+}
+
+.toggle-tab-action {
+  flex: 1;
+  padding: 0.5rem 0;
   background: transparent;
-  padding: 11px;
-  border-radius: 8px;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: bold;
-  color: #444;
+  border-radius: 0.35rem;
+  transition: all 0.2s ease;
 }
 
-.auth-tab.active {
-  background: white;
-  color: #0f766e;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+.toggle-tab-action.active {
+  background-color: var(--bg-card);
+  color: var(--brand-mint);
 }
 
-.auth-form h3 {
-  margin-top: 0;
-  color: #0f766e;
+.auth-form-module {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.form-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-mint);
+  letter-spacing: 0.05em;
+}
+
+.form-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.form-field:focus {
+  outline: none;
+  border-color: var(--brand-mint);
+}
+
+.action-submit-btn {
+  width: 100%;
+  background-color: var(--brand-mint);
+  color: var(--bg-universe);
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.8rem 0;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.action-submit-btn:hover {
+  background-color: var(--brand-mint-glow);
+}
+
+.action-submit-btn.register-variant {
+  background-color: var(--success-emerald);
+}
+
+/* ==========================================================================
+   6. APP FOOTER FRAME
+   ========================================================================== */
+.app-footer {
+  background-color: var(--bg-universe);
+  border-top: 1px solid var(--slate-border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.footer-status-hook {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.live-status-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  background-color: var(--success-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--success-emerald);
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+.status-msg {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.error {
+  color: var(--danger-rose);
+}
+.success {
+  color: var(--success-emerald);
 }
 
-.card {
-  background: white;
-  padding: 24px;
-  border-radius: 10px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-}
+/* ==========================================================================
+   PAGE-SPECIFIC UTILITIES (Add to bottom of style.css)
+   ========================================================================== */
 
-.card h3 {
-  margin-top: 0;
-  color: #0f766e;
-}
-
-form {
+/* 1. Admin Control Layouts */
+.admin-grid {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 2rem;
+  overflow-y: auto;
 }
 
-input,
-textarea,
-select {
-  padding: 11px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.admin-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--slate-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
-#loginMessage,
-#registerMessage {
-  margin-bottom: 0;
-  font-weight: bold;
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--slate-border);
 }
 
-.success {
-  color: green;
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+  background-color: var(--bg-fields);
 }
 
-.error {
-  color: red;
+.custom-table th {
+  background-color: rgba(28, 37, 65, 0.8);
+  color: var(--brand-mint);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border-bottom: 2px solid var(--slate-border);
 }
 
-#statsBox p {
-  font-size: 17px;
-  margin: 8px 0;
+.custom-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--slate-border);
+  color: var(--white-glow);
 }
 
-#statsBox span {
-  font-weight: bold;
-  color: #0f766e;
+.custom-table tr:hover {
+  background-color: rgba(58, 80, 107, 0.2);
 }
 
-@media (max-width: 700px) {
-  .topbar {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+/* Status Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.badge-pending {
+  bg-color: #f1c40f;
+  color: #0b1329;
+  background: #f39c12;
+}
+.badge-progress {
+  background: #3498db;
+  color: white;
+}
+.badge-resolved {
+  background: var(--success-emerald);
+  color: var(--bg-deep-space);
+}
+
+/* 2. Interactive Dashboard Layouts */
+.dashboard-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.main-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.interactive-visuals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .interactive-visuals-grid {
+    grid-template-columns: 1.2fr 0.8fr;
   }
+}
 
-  .cards {
-    grid-template-columns: 1fr;
-  }
+.chart-placeholder-card {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  .hero {
-    padding: 24px;
-  }
+.mock-chart-element {
+  flex: 1;
+  border: 1px dashed var(--slate-border);
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(11, 19, 41, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
 
-  .hero h1 {
-    font-size: 28px;
-  }
+/* 3. Dropdown styling fix for Admin Actions */
+.select-field {
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.35rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.select-field:focus {
+  outline: none;
+  border-color: var(--brand-mint);
 }

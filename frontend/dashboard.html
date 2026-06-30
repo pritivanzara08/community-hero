@@ -1,49 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Community Hero</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hero - Impact Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body data-page="dashboard">
-  <header class="topbar">
-    <a class="brand" href="index.html">Community Hero</a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="report.html">Report</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
+<body>
 
-  <main>
-    <section class="page-title">
-      <p class="eyebrow">Impact dashboard</p>
-      <h1>Track civic progress</h1>
-      <p>Use issue data to understand community needs, resolution progress, and location hotspots.</p>
-    </section>
+    <header class="app-header">
+        <div class="brand-section">
+            <span class="brand-icon">🛡️</span>
+            <div class="brand-text">
+                <h1>Community Hero</h1>
+                <p>Hyperlocal Civic Resolution Hub</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="report.html" class="nav-link">Report Issue</a>
+            <a href="#" class="nav-link active">Dashboard</a>
+            <a href="admin.html" class="nav-link">Admin</a>
+        </nav>
+    </header>
 
-    <section class="stat-grid dashboard" id="dashboardStats">
-      <article><strong>0</strong><span>Total Issues</span></article>
-      <article><strong>0</strong><span>Reported</span></article>
-      <article><strong>0</strong><span>In Progress</span></article>
-      <article><strong>0</strong><span>Resolved</span></article>
-      <article><strong>0</strong><span>Total Users</span></article>
-    </section>
+    <main class="landing-hero-container" style="overflow-y: auto;">
+        <div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 2rem; padding: 1rem 0;">
+            
+            <div class="hero-text-pane">
+                <span class="hero-badge">Real-time Metrics</span>
+                <h2 class="hero-headline" style="font-size: 2.25rem;">Track Civic Progress</h2>
+                <p class="hero-subtext">Monitor active citizen complaints, AI categorical allocations, and validated regional resolution indices live.</p>
+            </div>
 
-    <section class="split">
-      <div class="panel">
-        <h2>AI Category Summary</h2>
-        <div id="categorySummary" class="bar-list"></div>
-      </div>
-      <div class="panel">
-        <h2>Location Hotspots</h2>
-        <div id="hotspots" class="hotspot-list"></div>
-      </div>
-    </section>
-  </main>
+            <div class="metrics-row" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                <div class="metric-pill" style="padding: 1.25rem;">
+                    <span class="metric-num" id="count-total" style="font-size: 2.25rem;">0</span>
+                    <span class="metric-lbl">Total Incidents Cataloged</span>
+                </div>
+                <div class="metric-pill" style="padding: 1.25rem;">
+                    <span class="metric-num text-reported" id="count-reported" style="font-size: 2.25rem;">0</span>
+                    <span class="metric-lbl">Awaiting Evaluation</span>
+                </div>
+                <div class="metric-pill" style="padding: 1.25rem;">
+                    <span class="metric-num text-progress" id="count-progress" style="font-size: 2.25rem;">0</span>
+                    <span class="metric-lbl">Active Remediation</span>
+                </div>
+                <div class="metric-pill" style="padding: 1.25rem;">
+                    <span class="metric-num text-resolved" id="count-resolved" style="font-size: 2.25rem;">0</span>
+                    <span class="metric-lbl">Successfully Resolved</span>
+                </div>
+            </div>
 
-  <script src="script.js"></script>
+            <div class="landing-grid" style="gap: 1.5rem; margin-top: 1rem;">
+                <div class="auth-card" style="display: flex; flex-direction: column; min-height: 320px;">
+                    <h3 class="panel-subtitle" style="font-size: 1rem; color: white;">AI Category Volume Summary</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -0.25rem;">Ratios processed by NLP classification systems</p>
+                    <div style="flex: 1; border: 1px dashed var(--slate-border); border-radius: 0.5rem; margin-top: 1rem; background: rgba(11,19,41,0.4); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem;">
+                        [ Categorical NLP Allocation Donut Chart Matrix ]
+                    </div>
+                </div>
+
+                <div class="auth-card" style="display: flex; flex-direction: column; min-height: 320px;">
+                    <h3 class="panel-subtitle" style="font-size: 1rem; color: white;">Regional Location Hotspots</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -0.25rem;">Spatial distribution map grid layout tracking</p>
+                    <div style="flex: 1; border: 1px dashed var(--slate-border); border-radius: 0.5rem; margin-top: 1rem; background: rgba(11,19,41,0.4); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem;">
+                        [ Spatial Density Heatmap Analytics Render ]
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; 2026 Community Hero Network. All rights reserved.</p>
+        <div class="footer-status-hook"><span class="live-status-dot"></span><p>Metrics Stream Active</p></div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
