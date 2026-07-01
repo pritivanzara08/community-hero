@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Hero - Hyperlocal Civic Action Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Community Hero - Secure Citizen Action Hub</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
+
 <body>
 
     <header class="app-header">
@@ -17,95 +20,170 @@
             </div>
         </div>
         <nav class="nav-menu">
-            <a href="#" class="nav-link active">Home</a>
-            <a href="/report.html" class="nav-link">Report Issue</a>
-            <a href="/dashboard.html" class="nav-link">Dashboard</a>
-            <a href="/admin.html" class="nav-link">Admin</a>
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="report.html" class="nav-link">Report Issue</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="admin.html" class="nav-link" style="display: none;">Admin</a>
         </nav>
     </header>
 
     <main class="landing-hero-container">
         <div class="landing-grid">
-            
+
             <div class="hero-text-pane">
-                <span class="hero-badge">AI-Powered Neighborhood Safety</span>
-                <h2 class="hero-headline">Report and Solve Local Community Problems</h2>
+                <span class="hero-badge">🚀 Launch Civic Action</span>
+                <h2 class="hero-headline">Report Local Issues. See Real Change.</h2>
                 <p class="hero-subtext">
-                    Community Hero empowers citizens to identify, report, and collaborate on public infrastructure issues. Through intelligent automation, your reports are instantly analyzed and sent to the right municipality department.
+                    Community Hero is a hyperlocal civic engagement platform that transforms how citizens report urban
+                    challenges and empower departments to respond swiftly.
                 </p>
-                
+
                 <div class="mini-dashboard">
-                    <h3 class="panel-subtitle">Live Community Impact Status</h3>
+                    <h3 class="panel-subtitle">⚡ Why Choose Community Hero?</h3>
                     <div class="metrics-row">
                         <div class="metric-pill">
-                            <span class="metric-num" id="count-total">0</span>
-                            <span class="metric-lbl">Total Issues</span>
+                            <span class="metric-num text-reported">AI</span>
+                            <span class="metric-lbl">Smart Routing</span>
                         </div>
                         <div class="metric-pill">
-                            <span class="metric-num text-reported" id="count-reported">0</span>
-                            <span class="metric-lbl">Reported</span>
+                            <span class="metric-num text-progress">📍</span>
+                            <span class="metric-lbl">Geo-Tagged</span>
                         </div>
                         <div class="metric-pill">
-                            <span class="metric-num text-progress" id="count-progress">0</span>
-                            <span class="metric-lbl">In Progress</span>
+                            <span class="metric-num text-resolved">⚡</span>
+                            <span class="metric-lbl">Instant Updates</span>
                         </div>
                         <div class="metric-pill">
-                            <span class="metric-num text-resolved" id="count-resolved">0</span>
-                            <span class="metric-lbl">Resolved</span>
+                            <span class="metric-num">🤝</span>
+                            <span class="metric-lbl">Secure Node</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="hero-auth-pane">
-                <div class="auth-card">
+            <!-- AUTH CARD -->
+            <div class="auth-card">
+                <div id="authFormsWrapper">
                     <div class="auth-toggle-bar">
-                        <button id="showLoginBtn" class="toggle-tab-action active">Login</button>
-                        <button id="showRegisterBtn" class="toggle-tab-action">Register</button>
+                        <button type="button" class="toggle-tab-action active" id="authToggleLogin"
+                            onclick="toggleAuthTab(true)">
+                            Login
+                        </button>
+                        <button type="button" class="toggle-tab-action" id="authToggleRegister"
+                            onclick="toggleAuthTab(false)">
+                            Register
+                        </button>
                     </div>
 
-                    <form id="loginForm" class="auth-form-module">
+                    <!-- LOGIN FORM -->
+                    <form id="loginForm" class="auth-form-module" style="display: block;" onsubmit="handleLogin(event)">
                         <div class="form-header">
-                            <h3>Welcome Back!</h3>
-                            <p>Sign in to access your dashboard and check status logs.</p>
+                            <h3>Welcome Back</h3>
+                            <p>Sign in with your verified profile credentials</p>
                         </div>
-                        <div class="field-group">
-                            <label class="field-label">Account Email Address</label>
-                            <input type="email" id="loginEmail" required placeholder="e.g., citizen@city.org" class="form-field">
-                        </div>
-                        <div class="field-group">
-                            <label class="field-label">Secure Password</label>
-                            <input type="password" id="loginPassword" required placeholder="••••••••" class="form-field">
-                        </div>
-                        <p id="loginMessage" class="status-msg"></p>
-                        <button type="submit" class="action-submit-btn">Authorize Account Session 🔑</button>
-                    </form>
 
-                    <form id="registerForm" class="auth-form-module hidden">
-                        <div class="form-header">
-                            <h3>Join the Movement</h3>
-                            <p>Create an account to track issues and earn community points.</p>
-                        </div>
-                        <div class="field-group">
-                            <label class="field-label">Full Name</label>
-                            <input type="text" id="registerName" required placeholder="e.g., Jane Doe" class="form-field">
-                        </div>
                         <div class="field-group">
                             <label class="field-label">Email Address</label>
-                            <input type="email" id="registerEmail" required placeholder="e.g., name@domain.com" class="form-field">
+                            <input type="email" id="loginEmail" class="form-field" placeholder="your@email.com"
+                                required />
                         </div>
+
                         <div class="field-group">
                             <label class="field-label">Password</label>
-                            <input type="password" id="registerPassword" required placeholder="Min. 8 characters with numbers" class="form-field">
+                            <div class="password-field-container">
+                                <input type="password" id="loginPassword" class="form-field secure-input-padding" placeholder="••••••••"
+                                    required />
+                                <button type="button" class="password-toggle-eye"
+                                    onclick="togglePasswordVisibility('loginPassword')">👁️</button>
+                            </div>
                         </div>
+
+                        <div class="captcha-verification-box">
+                            <label class="field-label">
+                                <input type="checkbox" id="loginCaptcha" class="captcha-checkbox-input" required />
+                                <span>I am not a robot</span>
+                            </label>
+                            <div class="captcha-branding-sub">
+                                <span class="captcha-lbl-tiny">Protected
+                                    by</span>
+                                <span class="captcha-lbl-brand">Turnstile
+                                    Shield</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="action-submit-btn">Login →</button>
+                    </form>
+
+                    <!-- REGISTER FORM -->
+                    <form id="registerForm" class="auth-form-module hidden" style="display: none;"
+                        onsubmit="handleRegister(event)">
+                        <div class="form-header">
+                            <h3>Join the Movement</h3>
+                            <p>Create your Community Hero profile account</p>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Username</label>
+                            <input type="text" id="registerUsername" class="form-field" placeholder="Your username"
+                                required />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Email Address</label>
+                            <input type="email" id="registerEmail" class="form-field" placeholder="your@email.com"
+                                required />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Password</label>
+                            <div class="password-field-container">
+                                <input type="password" id="registerPassword" class="form-field secure-input-padding" placeholder="••••••••" required />
+                                <button type="button" class="password-toggle-eye" onclick="togglePasswordVisibility('registerPassword')">👁️</button>
+                            </div>
+                        </div>
+
                         <div class="field-group">
                             <label class="field-label">Confirm Password</label>
-                            <input type="password" id="confirmPassword" required placeholder="Verify password entry match" class="form-field">
+                            <div class="password-field-container">
+                                <input type="password" id="confirmPassword" class="form-field secure-input-padding" placeholder="Verify password" required />
+                                <button type="button" class="password-toggle-eye" onclick="togglePasswordVisibility('confirmPassword')">👁️</button>
+                            </div>
                         </div>
-                        <p id="registerMessage" class="status-msg"></p>
-                        <button type="submit" class="action-submit-btn register-variant">Create Citizen Profile ✨</button>
+                        <div class="checkbox-consent-row">
+                            <input type="checkbox" id="registerTerms" class="consent-checkbox-input" required />
+                            <label for="registerTerms">I accept the <a href="#" class="inline-link">Terms of Service</a> and privacy guidelines.</label>
+                        </div>
+
+                        <button type="submit" class="action-submit-btn register-variant">Create Account →</button>
                     </form>
                 </div>
+
+                <div id="otpVerificationModule" class="auth-form-module hidden">
+                    <div class="form-header">
+                        <div class="otp-header-navigation-row">
+                            <button type="button" class="back-arrow-btn" onclick="abortOtpVerification()">←</button>
+                            <h3>Two-Factor Authentication</h3>
+                        </div>
+                        <p class="otp-description-text">We've sent a 6-digit verification code to your email window checkpoint.</p>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Enter One-Time Verification Code</label>
+                        <div class="otp-inputs-wrapper">
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 1)" id="otp1" required />
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 2)" id="otp2" required />
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 3)" id="otp3" required />
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 4)" id="otp4" required />
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 5)" id="otp5" required />
+                            <input type="text" maxlength="1" class="otp-box" onkeyup="focusNextOtpBox(this, 6)" id="otp6" required />
+                        </div>
+                    </div>
+
+                    <p id="registerMessage" class="status-msg"></p>
+                    <button type="button" class="action-submit-btn" onclick="verifyOtpCode()">Verify Secure Code 🛡️</button>
+                    <p class="otp-resend-prompt-text">Didn't receive code? <a href="#" class="inline-link">Resend OTP</a></p>
+                </div>
+
             </div>
 
         </div>
@@ -119,6 +197,8 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/auth.js"></script>
+
 </body>
+
 </html>

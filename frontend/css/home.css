@@ -1,0 +1,518 @@
+/* ============================================================================
+   COMMUNITY HERO - HOME PAGE STYLES
+   Specific to index.html: landing hero, login form, auth card
+   ============================================================================ */
+
+/* ============================================================================
+   1. LANDING HERO CONTAINER
+   ============================================================================ */
+
+.landing-hero-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl) var(--space-xl);
+    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(11, 19, 41, 0.5) 0%, rgba(28, 37, 65, 0.3) 100%);
+}
+
+.landing-grid {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding: var(--space-lg);
+}
+
+@media (min-width: 992px) {
+    .landing-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .landing-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+}
+
+@media (max-width: 768px) {
+    .landing-hero-container {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 576px) {
+    .landing-hero-container {
+        padding: var(--space-md);
+    }
+}
+
+/* ==========================================================================
+   2. HERO TEXT SECTION
+   ========================================================================== */
+.hero-text-pane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding-right: var(--space-xl);
+}
+
+@media (max-width: 992px) {
+    .hero-text-pane {
+        padding-right: 0;
+    }
+}
+
+.hero-badge {
+    background: rgba(91, 192, 190, 0.1);
+    border: 1px solid rgba(91, 192, 190, 0.3);
+    color: var(--brand-mint);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    align-self: flex-start;
+    display: inline-block;
+    width: fit-content;
+}
+
+.hero-headline {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--white-glow);
+}
+
+@media (min-width: 768px) {
+    .hero-headline {
+        font-size: 2.8rem;
+        line-height: 1.35;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-headline {
+        font-size: 3.2rem;
+    }
+}
+
+.hero-subtext {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   3. MINI DASHBOARD / STATS
+   ========================================================================== */
+.mini-dashboard {
+    background-color: rgba(28, 37, 65, 0.4);
+    border: 1px solid var(--slate-border);
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+}
+
+.panel-subtitle {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand-mint);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.metrics-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+@media (min-width: 576px) {
+    .metrics-row {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.metric-pill {
+    background-color: var(--bg-fields);
+    border: 1px solid var(--slate-border);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: monospace;
+}
+
+.metric-lbl {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+}
+
+/* ============================================================================
+   4. AUTHENTICATION CARD
+   ============================================================================ */
+
+.auth-card {
+    background-color: var(--bg-card);
+    border: 2px solid var(--slate-border);
+    border-radius: 1.25rem;
+    padding: var(--space-xl);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
+}
+
+.auth-card:hover {
+    border-color: var(--brand-mint);
+    box-shadow: 0 30px 50px rgba(91, 192, 190, 0.15);
+    transform: translateY(-2px);
+}
+
+.auth-toggle-bar {
+    display: flex;
+    background-color: var(--bg-universe);
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--slate-border);
+    margin-bottom: 1.5rem;
+    gap: 0.25rem;
+}
+
+.toggle-tab-action {
+    flex: 1;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 0.35rem;
+    transition: all 0.2s ease;
+}
+
+.toggle-tab-action:hover {
+    color: var(--white-glow);
+}
+
+.toggle-tab-action.active {
+    background-color: var(--bg-card);
+    color: var(--brand-mint);
+}
+
+/* ============================================================================
+   5. AUTH FORM MODULES
+   ============================================================================ */
+
+.auth-form-module {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.auth-form-module.hidden {
+    display: none;
+}
+
+.form-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white-glow);
+}
+
+.form-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: 0.5rem;
+}
+
+.field-group input {
+    width: 100%;
+}
+
+/* ============================================================================
+   6. ACTION BUTTONS
+   ============================================================================ */
+
+.action-submit-btn {
+    width: 100%;
+    background-color: var(--brand-mint);
+    color: var(--bg-universe);
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.8rem var(--space-md);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.action-submit-btn:hover {
+    background-color: var(--brand-mint-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(91, 192, 190, 0.2);
+}
+
+.action-submit-btn:active {
+    transform: translateY(0);
+}
+
+.action-submit-btn.register-variant {
+    background-color: var(--success-emerald);
+}
+
+.action-submit-btn.register-variant:hover {
+    background-color: #00d4b0;
+    box-shadow: 0 10px 20px rgba(0, 245, 212, 0.2);
+}
+
+/* ============================================================================
+   7. RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 992px) {
+    .auth-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-headline {
+        font-size: 1.75rem;
+    }
+
+    .hero-subtext {
+        font-size: 0.95rem;
+    }
+
+    .auth-card {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 576px) {
+    .landing-grid {
+        gap: var(--space-lg);
+    }
+
+    .hero-headline {
+        font-size: 1.5rem;
+    }
+
+    .hero-badge {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .metric-pill {
+        padding: 0.5rem;
+    }
+
+    .metric-num {
+        font-size: 1.25rem;
+    }
+
+    .metric-lbl {
+        font-size: 0.6rem;
+    }
+
+    .auth-card {
+        padding: var(--space-lg);
+        border-radius: 0.75rem;
+    }
+
+    .action-submit-btn {
+        padding: 0.7rem var(--space-md);
+        font-size: 0.8rem;
+    }
+}
+
+/* ============================================================================
+   8. SECURE MODULE INTERFACE AND PASSWORD FIELD TOGGLES
+   ============================================================================ */
+
+.fallback-admin-hide {
+    display: none;
+}
+
+/* Password eye container layer positioning */
+.password-field-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Enforces clearance padding inside the text box so characters don't overlap the eye icon */
+.secure-input-padding {
+    padding-right: 2.75rem !important;
+}
+
+.password-toggle-eye {
+    position: absolute;
+    right: 0.85rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Captcha Layout Card */
+.captcha-verification-box {
+    background-color: rgba(11, 19, 41, 0.4);
+    border: 1px solid var(--slate-border);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+}
+
+.captcha-label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.captcha-checkbox-input {
+    width: 1.15rem;
+    height: 1.15rem;
+    cursor: pointer;
+}
+
+.captcha-branding-sub {
+    text-align: right;
+}
+
+.captcha-lbl-tiny {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+.captcha-lbl-brand {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--brand-mint);
+}
+
+/* Terms Selection Rows */
+.checkbox-consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+.consent-checkbox-input {
+    margin-top: 0.15rem;
+    cursor: pointer;
+}
+
+.inline-link {
+    color: var(--brand-mint);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.inline-link:hover {
+    text-decoration: underline;
+}
+
+/* One-Time Password Input Assemblies */
+.otp-header-navigation-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.otp-description-text {
+    margin-top: 0.5rem;
+}
+
+.otp-inputs-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.otp-box {
+    width: 2.5rem;
+    height: 3rem;
+    background-color: var(--bg-fields);
+    border: 2px solid var(--slate-border);
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+    transition: border-color 0.2s;
+}
+
+.otp-box:focus {
+    outline: none;
+    border-color: var(--brand-mint);
+    box-shadow: 0 0 8px rgba(91, 192, 190, 0.2);
+}
+
+.back-arrow-btn {
+    background: transparent;
+    border: none;
+    color: var(--brand-mint);
+    font-size: 1.25rem;
+    font-weight: 900;
+    cursor: pointer;
+    padding: 0 0.25rem;
+}
+
+.otp-resend-prompt-text {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}

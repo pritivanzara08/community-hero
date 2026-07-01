@@ -1,0 +1,361 @@
+/* ============================================================================
+   COMMUNITY HERO - GLOBAL STYLES
+   Shared across all pages: header, footer, colors, forms, badges
+   ============================================================================ */
+
+/* ============================================================================
+   1. CSS VARIABLES & DESIGN SYSTEM
+   ============================================================================ */
+
+:root {
+  /* Background Colors */
+  --bg-universe: #0b1329;      /* Dark blue base */
+  --bg-card: #1c2541;          /* Card/container background */
+  --bg-fields: #0b1329;        /* Form field background */
+  
+  /* Border & Accent Colors */
+  --slate-border: #3a506b;     /* Standard border color */
+  --brand-mint: #5bc0be;       /* Primary accent */
+  --brand-mint-glow: #6fffe9;  /* Bright accent hover */
+  
+  /* Status Colors */
+  --danger-rose: #ff3366;      /* Error/delete states */
+  --success-emerald: #00f5d4;  /* Success states */
+  --warning-gold: #f39c12;     /* Warning states */
+  --info-blue: #3498db;        /* Info states */
+  
+  /* Text Colors */
+  --white-glow: #ffffff;       /* Primary text */
+  --text-muted: #85929e;       /* Secondary text */
+  
+  /* Spacing (Rem-based) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+}
+
+/* ============================================================================
+   2. GLOBAL RESET
+   ============================================================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-universe);
+  color: var(--white-glow);
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   3. APP HEADER
+   ============================================================================ */
+
+.app-header {
+  background-color: rgba(28, 37, 65, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--slate-border);
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 100;
+  gap: var(--space-xl);
+}
+
+/* Brand Section */
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: fit-content;
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  background: rgba(91, 192, 190, 0.1);
+  padding: var(--space-sm);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(91, 192, 190, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-text h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--white-glow);
+  line-height: 1.2;
+}
+
+.brand-text p {
+  font-size: 0.75rem;
+  color: var(--brand-mint);
+  font-weight: 600;
+  margin-top: 0.1rem;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  display: flex;
+  gap: var(--space-lg);
+  margin: 0 auto;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding-bottom: 0.2rem;
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--white-glow);
+}
+
+.nav-link.active {
+  color: var(--brand-mint);
+  border-bottom-color: var(--brand-mint);
+}
+
+/* User Status */
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================================
+   4. APP FOOTER
+   ============================================================================ */
+
+.app-footer {
+  background-color: var(--bg-universe);
+  border-top: 1px solid var(--slate-border);
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  gap: var(--space-lg);
+}
+
+.footer-status-hook {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.live-status-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  background-color: var(--success-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--success-emerald);
+  animation: pulse-success 2s infinite;
+}
+
+/* ============================================================================
+   5. FORM ELEMENTS
+   ============================================================================ */
+
+.field-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-mint);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.form-field {
+  width: 100%;
+  padding: 0.75rem var(--space-md);
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  border-radius: 0.5rem;
+  color: var(--white-glow);
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-field:focus {
+  outline: none;
+  border-color: var(--brand-mint);
+  box-shadow: 0 0 0 3px rgba(91, 192, 190, 0.1);
+}
+
+.form-field::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.select-field {
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  color: var(--white-glow);
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.35rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select-field:focus {
+  outline: none;
+  border-color: var(--brand-mint);
+}
+
+/* ============================================================================
+   6. BADGES & STATUS INDICATORS
+   ============================================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-pending {
+  background-color: rgba(243, 156, 18, 0.2);
+  color: var(--warning-gold);
+}
+
+.badge-progress {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: var(--info-blue);
+}
+
+.badge-resolved {
+  background-color: rgba(0, 245, 212, 0.2);
+  color: var(--success-emerald);
+}
+
+/* ============================================================================
+   7. UTILITY CLASSES
+   ============================================================================ */
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+.status-msg {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: var(--space-xs);
+}
+
+.error {
+  color: var(--danger-rose);
+}
+
+.success {
+  color: var(--success-emerald);
+}
+
+.warning {
+  color: var(--warning-gold);
+}
+
+.info {
+  color: var(--info-blue);
+}
+
+.text-reported {
+  color: var(--brand-mint);
+}
+
+.text-progress {
+  color: var(--warning-gold);
+}
+
+.text-resolved {
+  color: var(--success-emerald);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* ============================================================================
+   8. RESPONSIVE UTILITIES
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: var(--space-md);
+    gap: var(--space-md);
+  }
+
+  .nav-menu {
+    gap: var(--space-md);
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 576px) {
+  .app-header {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .brand-section {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    padding: 0.25rem var(--space-sm);
+  }
+}

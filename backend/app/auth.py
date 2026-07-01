@@ -20,6 +20,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
 class TokenData(BaseModel):
     email: Optional[str] = None
     role: Optional[str] = None
+    user_id: Optional[int] = None
 
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
@@ -48,8 +49,27 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
         role: str = payload.get("role")
+        user_id: int = payload.get("user_id")
         if email is None:
             raise credentials_exception
-        return TokenData(email=email, role=role)
+        return TokenData(email=email, role=role, user_id=user_id)
     except jwt.PyJWTError:
         raise credentials_exception
+
+# Dependency to verify admin role
+def get_current_admin_user(current_user: TokenData = Depends(get_current_user)):
+    if current_user.role not in ["Admin", "Department_Admin", "Moderator"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access denied. Admin privileges required."
+        )
+    return current_user
+
+# Dependency to verify citizen role
+def get_current_citizen_user(current_user: TokenData = Depends(get_current_user)):
+    if current_user.role != "Citizen":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access denied. Citizen privileges required."
+        )
+    return current_user

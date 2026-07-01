@@ -1,0 +1,399 @@
+/* ============================================================================
+   COMMUNITY HERO - ADMIN PAGE STYLES
+   Specific to admin.html: admin-only features, controls, status management
+   ============================================================================ */
+
+/* ============================================================================
+   1. ADMIN-SPECIFIC HEADER BADGES
+   ============================================================================ */
+
+.admin-badge {
+  background: rgba(255, 51, 102, 0.1);
+  color: var(--danger-rose);
+  border: 1px solid rgba(255, 51, 102, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+/* ============================================================================
+   2. ADMIN ACTION BUTTONS
+   ============================================================================ */
+
+.admin-action-btn {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.75rem;
+  background-color: var(--brand-mint);
+  color: var(--bg-universe);
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(91, 192, 190, 0.15);
+}
+
+.admin-action-btn:hover {
+  background-color: var(--brand-mint-glow);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(91, 192, 190, 0.2);
+}
+
+.admin-action-btn:active {
+  transform: translateY(0);
+}
+
+.admin-action-btn.danger {
+  background-color: var(--danger-rose);
+  color: var(--white-glow);
+}
+
+.admin-action-btn.danger:hover {
+  background-color: #ff5588;
+  box-shadow: 0 4px 8px rgba(255, 51, 102, 0.2);
+}
+
+.admin-action-btn.secondary {
+  background-color: var(--info-blue);
+  color: var(--white-glow);
+}
+
+.admin-action-btn.secondary:hover {
+  background-color: #2980b9;
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+.admin-action-btn:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
+/* ============================================================================
+   3. ADMIN CONTROLS GRID
+   ============================================================================ */
+
+.admin-controls {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .admin-controls {
+    gap: var(--space-xs);
+  }
+
+  .admin-action-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================================================
+   4. ADMIN STATS CARDS
+   ============================================================================ */
+
+.admin-stat-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--slate-border);
+  border-radius: 1rem;
+  padding: var(--space-lg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  transition: all 0.2s;
+}
+
+.admin-stat-card:hover {
+  border-color: var(--brand-mint);
+  box-shadow: 0 15px 25px -5px rgba(91, 192, 190, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: monospace;
+  margin: 0.5rem 0;
+  color: var(--brand-mint);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .admin-stat-card {
+    min-width: 150px;
+    padding: var(--space-md);
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================================================
+   5. ADMIN FILTERS
+   ============================================================================ */
+
+.admin-filters {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-filters label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-filters select {
+  background-color: var(--bg-fields);
+  border: 1px solid var(--slate-border);
+  color: var(--white-glow);
+  padding: 0.6rem var(--space-md);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 150px;
+}
+
+.admin-filters select:focus {
+  outline: none;
+  border-color: var(--brand-mint);
+  box-shadow: 0 0 0 3px rgba(91, 192, 190, 0.1);
+}
+
+.admin-filters select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .admin-filters {
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .admin-filters select {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-width: 120px;
+  }
+}
+
+/* ============================================================================
+   6. ADMIN TABLE ACTIONS
+   ============================================================================ */
+
+.action-cell {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.action-cell button {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.7rem;
+  background-color: var(--brand-mint);
+  color: var(--bg-universe);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.action-cell button:hover {
+  background-color: var(--brand-mint-glow);
+  transform: translateY(-1px);
+}
+
+.action-cell button:active {
+  transform: translateY(0);
+}
+
+.action-cell button.view {
+  background-color: var(--info-blue);
+}
+
+.action-cell button.view:hover {
+  background-color: #2980b9;
+}
+
+.action-cell button.delete {
+  background-color: var(--danger-rose);
+}
+
+.action-cell button.delete:hover {
+  background-color: #ff5588;
+}
+
+.action-cell button.edit {
+  background-color: var(--warning-gold);
+  color: var(--bg-universe);
+}
+
+.action-cell button.edit:hover {
+  background-color: #ffb84d;
+}
+
+@media (max-width: 768px) {
+  .action-cell {
+    gap: var(--space-xs);
+  }
+
+  .action-cell button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+  }
+}
+
+/* ============================================================================
+   7. ADMIN STATUS INDICATORS
+   ============================================================================ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.status-pending {
+  background-color: rgba(243, 156, 18, 0.2);
+  color: var(--warning-gold);
+  border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.status-active {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: var(--info-blue);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.status-resolved {
+  background-color: rgba(0, 245, 212, 0.2);
+  color: var(--success-emerald);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+}
+
+.status-rejected {
+  background-color: rgba(255, 51, 102, 0.2);
+  color: var(--danger-rose);
+  border: 1px solid rgba(255, 51, 102, 0.3);
+}
+
+.status-dot {
+  height: 0.4rem;
+  width: 0.4rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.pending {
+  background-color: var(--warning-gold);
+  animation: pulse-warning 2s infinite;
+}
+
+.status-dot.active {
+  background-color: var(--info-blue);
+  animation: pulse-info 2s infinite;
+}
+
+.status-dot.resolved {
+  background-color: var(--success-emerald);
+}
+
+.status-dot.rejected {
+  background-color: var(--danger-rose);
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse-info {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+  }
+}
+
+/* ============================================================================
+   8. RESPONSIVE ADMIN LAYOUT
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .status-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    gap: var(--space-xs);
+  }
+
+  .status-dot {
+    height: 0.35rem;
+    width: 0.35rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-stat-card {
+    min-width: 120px;
+    padding: var(--space-sm);
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    margin: 0.3rem 0;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+  }
+}
